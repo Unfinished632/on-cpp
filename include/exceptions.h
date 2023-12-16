@@ -7,5 +7,6 @@ enum Exception
     WrongNotation,
     MissingSemicolon,
     UnidentifiedType,
-    ExpectedEqualSign
+    ExpectedEqualSign,
+    VariableNameExpected
 };

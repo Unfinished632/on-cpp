@@ -32,14 +32,14 @@ int row = 0;
 void Read();
 void Print();
 void ThrowException(Exception exception, int line);
-void CreateVar(Types type, string value, string name);
+void CreateVar(Types type, string name);
+void CreateVar(Types type, string name, string value);
 
 int main()
 {   
     Read();
 
-    string input;
-    std::cin >> input;
+    std::cin.get();
 
     return 0;
 }
@@ -67,13 +67,15 @@ void Read()
                 lastLine++;
                 break;
             }
-            else if (arg == "Off")
-                return;
 
             arg += line[lastLine];
         }
 
-        if (arg == "Print:" || arg == "Println:")
+        if (arg == "Off;")
+        {
+            return;
+        }
+        else if (arg == "Print:" || arg == "Println:")
         {
             Types type;
             string arg2;
@@ -107,9 +109,10 @@ void Read()
         {
             Types type;
             string arg2;
+            string name;
             string value;
 
-            for (; lastLine < size; lastLine)
+            for (; lastLine < size; lastLine++)
             {
                 if (line[lastLine] = ' ')
                 {
@@ -138,9 +141,51 @@ void Read()
 
             if (line[lastLine] != ' ')
             {
+                for (; lastLine < size; lastLine++)
+                {
+                    if (line[lastLine] = ' ' || line[lastLine == ';'])
+                    {
+                        lastLine++;
+                        break;
+                    }
 
+                    name += line[lastLine];
+                }
+
+                if (line[lastLine - 1] = ';')
+                {
+                    CreateVar(type, name);
+                }
+                else if (line[lastLine] = '=')
+                {
+                    for (; lastLine < size; lastLine++)
+                    {
+                        if (line[lastLine] == '"' && line[lastLine + 1] == ';')
+                        {
+                            if (type != Types::String)
+                            {
+                                ThrowException(Exception::IncorrectType, lastLine);
+                                return;
+                            }
+
+                            CreateVar(type, name, value);
+                            break;
+                        }
+                        else if (line[lastLine + 1] == ';')
+                        {
+                            CreateVar(type, name, value);
+                            break;
+                        }
+
+                        value += line[lastLine];
+                    }
+                }
             }
-            else if (line[lastLine == ';'])
+            else
+            {
+                ThrowException(Exception::VariableNameExpected, lastLine);
+                return;
+            }
 
         }
 
