@@ -8,5 +8,8 @@ enum Exception
     MissingSemicolon,
     UnidentifiedType,
     ExpectedEqualSign,
-    VariableNameExpected
+    VariableNameExpected,
+    UnidentifiedOrWrongOperator,
+    VariableNameAlreadyExists,
+    MaxedHeap
 };
