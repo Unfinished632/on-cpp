@@ -1,230 +1,38 @@
-//g++ src/main.cpp src/Interperter.cpp -o On.exe
-
 #include <iostream>
 #include <fstream>
-#include "../include/exceptions.h"
-#include "../include/types.h"
-#include "../include/definitions.h"
-#include "../include/interperter.h"
+#include <sstream>
 
-int main()
-{   
-    On on;
+const std::string parserPath = "prs";
 
-    on.Read();
+void Parser(std::string filePath);
 
-    std::cin.get();
+int main(int argc, char* argv[])
+{
+    if (argc <= 1)
+    {
+        std::cout << "On version 0.1";
+    }
+    else if (argc == 2)
+    {
+        Parser(argv[1]);
+    }
 
     return 0;
 }
 
-class On
+void Parser(std::string filePath)
 {
-    public:
-        std::ifstream script;
+    std::ifstream script;
+    script.open(filePath);
+    
+    std::fstream parsedScript;
+    parsedScript.open(parserPath);
 
-        char line[MAX_CHAR];
+    std::ostringstream buffer;
+    buffer << script.rdbuf();
 
-        int row = 0;
 
-        void Read();
-        void Print();
-        int CreateVariable(Types type, string name, int line);
-        int CreateVariable(Types type, string name, int line, string value);
+    std::string code = buffer.str();
 
-        All::HeapMemory heapMemory;
-        All::Interperter interperter;
-
-        int CreateVariable(Types type, string name, int line)
-        {
-            if (heapMemory.CheckIfVariableNameExists(interperter, name ,line, row) != 0)
-                return 1;
-
-            int position;
-
-            if (heapMemory.CheckIfFreeSpaceInHeap(interperter, line, row) != 0)
-                return 1;
-
-            position = heapMemory.GetBestPositionInHeap();
-
-            heapMemory.CreateVariable(type, name, position);
-
-            return 0;
-        }
-        int CreateVariable(Types type, string name, int line, string value)
-        {
-            if (heapMemory.CheckIfVariableNameExists(interperter, name, line, row) != 0)
-                return 1;
-
-            int position;
-
-            if (heapMemory.CheckIfFreeSpaceInHeap(interperter, line, row) != 0)
-                return 1;
-
-            position = heapMemory.GetBestPositionInHeap();
-
-            heapMemory.CreateVariable(type, name, position, value);
-
-            return 0;
-        }
-
-        void Read()
-        {
-            string path;
-            std::cin >> path;
-            script.open(path);
-
-            while (true)
-            {
-                script.getline(line, MAX_CHAR);
-                int size = sizeof(line) / sizeof(line[0]);
-                string arg;
-                int lastLine = 0;
-
-                if (line[0] == ' ')
-                    continue;
-
-                for (; lastLine < size; lastLine++)
-                {
-                    if (line[lastLine] == ' ')
-                    {
-                        lastLine++;
-                        break;
-                    }
-
-                    arg += line[lastLine];
-                }
-
-                if (arg == "Off;")
-                {
-                    return;
-                }
-                else if (arg == "Print:" || arg == "Println:")
-                {
-                    Types type;
-                    string arg2;
-
-                    if (line[lastLine] == '"')
-                        type = Types::String;
-                    else
-                    {
-                        interperter.ThrowException(Exception::IncorrectType, lastLine, row);
-                        return;
-                    }
-
-                    lastLine++;
-
-                    for (; lastLine < size; lastLine++)
-                    {
-                        if (line[lastLine] == '"' && line[lastLine + 1] == ';')
-                        {
-                            break;
-                        }
-
-                        arg2 += line[lastLine];
-                    }
-
-                    std::cout << arg2;
-                    if (arg == "Println:")
-                        std::cout << '\n';
-                }
-
-                else if (arg == "NewVar:")
-                {
-                    Types type;
-                    string arg2;
-                    string name;
-                    string value;
-
-                    for (; lastLine < size; lastLine++)
-                    {
-                        if (line[lastLine] = ' ')
-                        {
-                            lastLine++;
-                            break;
-                        }
-
-                        arg2 += line[lastLine];
-                    }
-
-                    if (arg2 == "Int")
-                        type == Types::Int;
-                    else if (arg2 == "String")
-                        type == Types::String;
-                    else if (arg2 == "Float")
-                        type == Types::Float;
-                    else if (arg2 == "Double")
-                        type == Types::Double;
-                    else if (arg2 == "Bool")
-                        type == Types::Bool;
-                    else
-                    {
-                        interperter.ThrowException(Exception::UnidentifiedType, lastLine, row);
-                        return;
-                    }
-
-                    if (line[lastLine] != ' ')
-                    {
-                        for (; lastLine < size; lastLine++)
-                        {
-                            if (line[lastLine] = ' ' || line[lastLine == ';'])
-                            {
-                                lastLine++;
-                                break;
-                            }
-
-                            name += line[lastLine];
-                        }
-
-                        if (line[lastLine - 1] = ';')
-                        {
-                            if (CreateVariable(type, name, lastLine) != 0)
-                                return;
-                        }
-                        else if (line[lastLine] = '=')
-                        {
-                            for (; lastLine < size; lastLine++)
-                            {
-                                if (line[lastLine] == '"' && line[lastLine + 1] == ';')
-                                {
-                                    if (type != Types::String)
-                                    {
-                                        interperter.ThrowException(Exception::IncorrectType, lastLine, row);
-                                        return;
-                                    }
-
-                                    if (CreateVariable(type, name, lastLine, value) != 0)
-                                        return;
-                                    break;
-                                }
-                                else if (line[lastLine + 1] == ';')
-                                {
-                                    if (CreateVariable(type, name, lastLine, value) != 0)
-                                        return;
-                                    break;
-                                }
-                                else
-                                {
-                                    interperter.ThrowException(Exception::MissingSemicolon, lastLine, row);
-                                    return;
-                                }
-
-                                value += line[lastLine];
-                            }
-                        }
-                        else
-                        {
-                            interperter.ThrowException(Exception::UnidentifiedOrWrongOperator, lastLine, row);
-                        }
-                    }
-                    else
-                    {
-                        interperter.ThrowException(Exception::VariableNameExpected, lastLine, row);
-                        return;
-                    }
-                }
-
-                row++;
-            }
-        }
-};
+    std::cout << code;
+}
