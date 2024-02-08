@@ -4,8 +4,6 @@
 #include <list>
 #include <memory>
 
-const std::string parserPath = "prs";
-
 void ReadScript(std::string filePath);
 std::list<std::string> Lex(std::string code);
 
@@ -13,7 +11,7 @@ int main(int argc, char* argv[])
 {
     if (argc <= 1)
     {
-        std::cout << "On version 0.1";
+        std::cout << "On version 0.1" << '\n';
     }
     else if (argc == 2)
     {
