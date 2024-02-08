@@ -47,7 +47,9 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "sstream": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "cstring": "cpp",
+        "cinttypes": "cpp"
     },
     "cmake.configureOnOpen": false
 }
