@@ -37,8 +37,6 @@ void ReadScript(std::string filePath)
 
     for (std::string i : tokens)
         std::cout << i + '\n';
-
-    std::cout << tokens.size() << '\n';
 }
 
 std::list<std::string> Lex(std::string code)
