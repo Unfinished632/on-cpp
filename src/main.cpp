@@ -27,6 +27,12 @@ void ReadScript(std::string filePath)
     std::ifstream script;
     script.open(filePath);
 
+    if (!script.good())
+    {
+        std::cout << "File doesn't exist dumbass!\n";
+        return;
+    }
+
     std::ostringstream buffer;
     buffer << script.rdbuf();
 

@@ -10,7 +10,7 @@
 
 std::list<struct Token> Lexer(std::string code)
 {
-    std::list<struct Token> tokens[1];
+    std::list<struct Token> tokens;
     std::string arg = "";
 
     //Lexing
@@ -26,7 +26,10 @@ std::list<struct Token> Lexer(std::string code)
         arg += code[i];
 
         if (arg.back() == '\n')
+        {
             arg.pop_back();
+            line++;
+        }
 
         if (arg.back() == ' ' && !allowSpaces)
         {
@@ -34,7 +37,7 @@ std::list<struct Token> Lexer(std::string code)
             token.value = arg;
 
             if (arg != "")
-                tokens->push_back(token);
+                tokens.push_back(token);
             arg = "";
         }
         else if (arg.back() == '"')
@@ -44,7 +47,7 @@ std::list<struct Token> Lexer(std::string code)
             if (allowSpaces)
             {
                 token.value = "\"";
-                tokens->push_back(token);
+                tokens.push_back(token);
             }
             else
             {
@@ -52,11 +55,11 @@ std::list<struct Token> Lexer(std::string code)
 
                 token.value = arg;
                 token.collumn = (i - arg.length()) + 1;
-                tokens->push_back(token);
+                tokens.push_back(token);
 
                 token.value = "\"";
                 token.collumn = i + 1;
-                tokens->push_back(token);
+                tokens.push_back(token);
             }
             
             arg = "";
@@ -73,12 +76,12 @@ std::list<struct Token> Lexer(std::string code)
                     {
                         token.value = arg;
                         token.collumn = (i - arg.length()) + 1;
-                        tokens->push_back(token);
+                        tokens.push_back(token);
                     }
 
                     token.value = ";";
                     token.collumn = i + 1;
-                    tokens->push_back(token);
+                    tokens.push_back(token);
                     break;
                 case ':':
                     arg.pop_back();
@@ -87,12 +90,12 @@ std::list<struct Token> Lexer(std::string code)
                     {
                         token.value = arg;
                         token.collumn = (i - arg.length()) + 1;
-                        tokens->push_back(token);
+                        tokens.push_back(token);
                     }
 
                     token.value = ":";
                     token.collumn = i + 1;
-                    tokens->push_back(token);
+                    tokens.push_back(token);
                     break;
                 case ',':
                     arg.pop_back();
@@ -101,12 +104,12 @@ std::list<struct Token> Lexer(std::string code)
                     {
                         token.value = arg;
                         token.collumn = (i - arg.length()) + 1;
-                        tokens->push_back(token);
+                        tokens.push_back(token);
                     }
 
                     token.value = ",";
                     token.collumn = i + 1;
-                    tokens->push_back(token);
+                    tokens.push_back(token);
                     break;
             }
 
@@ -117,12 +120,12 @@ std::list<struct Token> Lexer(std::string code)
             token.value = arg;
             token.collumn = (i - arg.length()) + 1;
 
-            tokens->push_back(token);
+            tokens.push_back(token);
             arg = "";
         }
     }
 
-    return *tokens;
+    return tokens;
 }
 
 /*
