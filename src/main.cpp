@@ -3,7 +3,7 @@
 #include <sstream>
 #include <list>
 #include <memory>
-#include "parser.cpp"
+#include "../include/syntax.h"
 
 void ReadScript(std::string filePath);
 
@@ -33,8 +33,10 @@ void ReadScript(std::string filePath)
     //Lex
     std::string code = buffer.str();
 
-    std::list<std::string> tokens = Lex(code);
+    std::list<struct Token> tokens = Lexer(code);
 
-    for (std::string i : tokens)
-        std::cout << i + '\n';
+    for (struct Token i : tokens)
+    {
+        std::cout << i.value << '\n';
+    }
 }

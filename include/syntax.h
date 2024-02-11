@@ -1,10 +1,12 @@
 #pragma once
 
 #include <iostream>
+#include <list>
 #include <vector>
 
 enum Instruction
 {
+    SynatxError,
     Print,
     CreateVar,
     Wait,
@@ -20,13 +22,17 @@ enum Type
     Bool
 };
 
+struct Token
+{
+    std::string value;
+    int line;
+    int collumn;
+};
+
 struct Statement
 {
     Instruction instruction;
-    int value;
+    std::vector<int> values;
 };
 
-struct AST
-{
-    std::vector<Statement> statements;
-};
+std::list<struct Token> Lexer(std::string code);
