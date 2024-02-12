@@ -4,9 +4,12 @@
 #include <list>
 #include <memory>
 #include <vector>
+#include <string.h>
 #include "../include/syntax.h"
 
-//std::vector<Statement> Parse(std::list<std::string> tokens);
+
+Statement ParseIntoStatement(std::vector<Token> tokens);
+Statement ParsePrint(std::vector<Token> tokens);
 
 std::list<struct Token> Lexer(std::string code)
 {
@@ -135,15 +138,62 @@ std::list<struct Token> Lexer(std::string code)
     return tokens;
 }
 
-/*
-std::vector<Statement> Parse(std::list<std::string> tokens)
+std::vector<Statement> Parse(std::list<struct Token> tokens)
 {
     std::vector<Statement> ast;
+    std::vector<Token> statement;
 
-    for (std::string i : tokens)
+    for (Token i : tokens)
     {
-        Statement statement;
-        
+        if (i.value == ";")
+        {
+            ast.push_back(ParseIntoStatement(statement));
+            statement.clear();
+        }
+
+        statement.push_back(i);
     }
+
+    return ast;
 }
-*/
+
+Statement ParseIntoStatement(std::vector<Token> tokens)
+{
+    if (tokens.at(1).value == ":")
+    {
+        if (tokens.at(0).value == "Print")
+        {
+            return ParsePrint(tokens);
+        }
+    }
+
+    Statement error;
+    error.instruction = Instruction::SyntaxError;
+
+    return error;
+}
+
+Statement ParsePrint(std::vector<Token> tokens)
+{
+    Statement statement;
+    statement.instruction = Instruction::Print;
+
+    tokens.erase(tokens.begin(), tokens.begin() + 2);
+
+    if (tokens.front().value == "\"" && tokens.back().value == "\"")
+    {
+        tokens.erase(tokens.begin());
+        tokens.erase(tokens.begin() + tokens.size());
+
+        for (char i : tokens.front().value)
+        {
+            statement.values.push_back(i);
+        }
+
+        return statement;
+    }
+
+    Statement error;
+    error.instruction = Instruction::SyntaxError;
+    return error;
+}

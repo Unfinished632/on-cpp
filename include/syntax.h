@@ -6,15 +6,13 @@
 
 enum Instruction
 {
-    SynatxError,
-    Print,
-    CreateVar,
-    Wait,
-    Crush
+    SyntaxError,
+    Print
 };
 
 enum Type
 {
+    Variable,
     Int,
     Double,
     Float,
@@ -36,3 +34,4 @@ struct Statement
 };
 
 std::list<struct Token> Lexer(std::string code);
+std::vector<Statement> Parse(std::list<struct Token> tokens);
