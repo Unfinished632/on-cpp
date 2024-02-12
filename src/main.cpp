@@ -43,6 +43,6 @@ void ReadScript(std::string filePath)
 
     for (struct Token i : tokens)
     {
-        std::cout << i.value << '\n';
+        std::cout << i.value << " Line:" << std::to_string(i.line) << " Collumn:" << std::to_string(i.collumn) << '\n';
     }
 }

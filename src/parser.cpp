@@ -64,8 +64,17 @@ std::list<struct Token> Lexer(std::string code)
             
             arg = "";
         }
+
+        else if (i + 1 >= code.length())
+        {
+            token.value = arg;
+            token.collumn = (i - arg.length()) + 1;
+
+            tokens.push_back(token);
+            arg = "";
+        }
         
-        else if (i + 1 < code.length())
+        else
         {
             switch (arg.back())
             {
@@ -82,6 +91,7 @@ std::list<struct Token> Lexer(std::string code)
                     token.value = ";";
                     token.collumn = i + 1;
                     tokens.push_back(token);
+                    arg = "";
                     break;
                 case ':':
                     arg.pop_back();
@@ -96,6 +106,7 @@ std::list<struct Token> Lexer(std::string code)
                     token.value = ":";
                     token.collumn = i + 1;
                     tokens.push_back(token);
+                    arg = "";
                     break;
                 case ',':
                     arg.pop_back();
@@ -110,18 +121,9 @@ std::list<struct Token> Lexer(std::string code)
                     token.value = ",";
                     token.collumn = i + 1;
                     tokens.push_back(token);
+                    arg = "";
                     break;
             }
-
-            arg = "";
-        }
-        else if (i + 1 >= code.length())
-        {
-            token.value = arg;
-            token.collumn = (i - arg.length()) + 1;
-
-            tokens.push_back(token);
-            arg = "";
         }
     }
 
