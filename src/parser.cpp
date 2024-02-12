@@ -149,6 +149,7 @@ std::vector<Statement> Parse(std::list<struct Token> tokens)
         {
             ast.push_back(ParseIntoStatement(statement));
             statement.clear();
+            continue;
         }
 
         statement.push_back(i);

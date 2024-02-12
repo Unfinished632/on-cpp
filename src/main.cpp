@@ -52,6 +52,12 @@ void ReadScript(std::string filePath)
 
     for (Statement i : ast)
     {
-        std::cout << std::to_string(i.instruction) << '\n';
+        std::cout << i.instruction << "=>";
+        for (int j : i.values)
+        {
+            std::cout << (char)j;
+        }
+
+        std::cout << '\n';
     }
 }
