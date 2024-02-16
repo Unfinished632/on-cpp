@@ -10,6 +10,7 @@
 
 Statement ParseIntoStatement(std::vector<Token> tokens);
 Statement ParsePrint(std::vector<Token> tokens);
+Statement ParsePrintLine(std::vector<Token> tokens);
 
 std::list<struct Token> Lexer(std::string code)
 {
@@ -163,9 +164,9 @@ Statement ParseIntoStatement(std::vector<Token> tokens)
     if (tokens.at(1).value == ":")
     {
         if (tokens.at(0).value == "Print")
-        {
             return ParsePrint(tokens);
-        }
+        else if (tokens.at(0).value == "Println")
+            return ParsePrintLine(tokens);
     }
 
     Statement error;
@@ -197,4 +198,53 @@ Statement ParsePrint(std::vector<Token> tokens)
     Statement error;
     error.instruction = Instruction::SyntaxError;
     return error;
+}
+
+Statement ParsePrintLine(std::vector<Token> tokens)
+{
+    Statement statement;
+    statement.instruction = Instruction::Print;
+
+    tokens.erase(tokens.begin(), tokens.begin() + 2);
+
+    if (tokens.empty())
+    {
+        statement.values.push_back('\n');
+
+        return statement;
+    }
+    else if (tokens.front().value == "\"" && tokens.back().value == "\"")
+    {
+        tokens.erase(tokens.begin());
+        tokens.erase(tokens.begin() + tokens.size());
+
+        for (char i : tokens.front().value)
+        {
+            statement.values.push_back(i);
+        }
+
+        statement.values.push_back('\n');
+
+        return statement;
+    }
+
+    Statement error;
+    error.instruction = Instruction::SyntaxError;
+    return error;
+}
+
+DataType ParseDataType(std::string token)
+{
+    if (token == "Int")
+        return DataType::Int;
+    else if (token == "Double")
+        return DataType::Double;
+    else if (token == "Float")
+        return DataType::Float;
+    else if (token == "Bool")
+        return DataType::Bool;
+    else if (token == "String")
+        return DataType::String;
+    else
+        return DataType::Error;
 }

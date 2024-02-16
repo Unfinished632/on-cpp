@@ -7,12 +7,13 @@
 enum Instruction
 {
     SyntaxError,
-    Print
+    Print,
+    CreateVariable
 };
 
-enum Type
+enum DataType
 {
-    Variable,
+    Error,
     Int,
     Double,
     Float,

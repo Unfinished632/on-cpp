@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include "../include/syntax.h"
+#include "../include/interpreter.h"
 
 void ReadScript(std::string filePath);
 
@@ -40,24 +41,7 @@ void ReadScript(std::string filePath)
     std::string code = buffer.str();
 
     std::list<struct Token> tokens = Lexer(code);
-
-    for (struct Token i : tokens)
-    {
-        std::cout << i.value << " Line:" << std::to_string(i.line) << " Collumn:" << std::to_string(i.collumn) << '\n';
-    }
-
-    std::cout << "\n\n\n\n\n";
-
     std::vector<Statement> ast = Parse(tokens);
 
-    for (Statement i : ast)
-    {
-        std::cout << i.instruction << "=>";
-        for (int j : i.values)
-        {
-            std::cout << (char)j;
-        }
-
-        std::cout << '\n';
-    }
+    Interpret(ast);
 }

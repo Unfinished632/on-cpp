@@ -1,3 +1,2 @@
-Print: "Hello World!";
-Print: "Hello World!";
+Println: "Hello World!";
 Print: "Hello World!";
