@@ -6,7 +6,6 @@
 #include <list>
 #include <memory>
 #include <vector>
-#include <string.h>
 #include "../include/syntax.h"
 
 enum Exception

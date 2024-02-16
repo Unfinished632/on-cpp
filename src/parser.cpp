@@ -4,7 +4,6 @@
 #include <list>
 #include <memory>
 #include <vector>
-#include <string.h>
 #include "../include/syntax.h"
 
 
@@ -29,6 +28,7 @@ std::list<struct Token> Lexer(std::string code)
 
         collumn++;
 
+        if (!arg.empty())
         if (arg.back() == '\n')
         {
             arg.pop_back();
@@ -39,6 +39,7 @@ std::list<struct Token> Lexer(std::string code)
         token.collumn = collumn;
         token.line = line;
 
+        if (!arg.empty())
         if (arg.back() == ' ' && !allowSpaces)
         {
             arg.pop_back();
