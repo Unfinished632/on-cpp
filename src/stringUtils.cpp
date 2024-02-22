@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/stringUtils.h"
+#include "stringUtils.h"
 
 int String::CountLines(std::string string)
 {

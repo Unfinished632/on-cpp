@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 #include <string.h>
-#include "../include/syntax.h"
-#include "../include/interpreter.h"
+#include "syntax.h"
+#include "interpreter.h"
 
 Exception InterpretPrint(std::vector<int> values);
 Exception InterpretPrintLine(std::vector<int> values);

@@ -3,8 +3,8 @@
 #include <sstream>
 #include <list>
 #include <memory>
-#include "../include/syntax.h"
-#include "../include/interpreter.h"
+#include "syntax.h"
+#include "interpreter.h"
 
 void ReadScript(std::string filePath);
 

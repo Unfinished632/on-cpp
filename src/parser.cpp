@@ -4,7 +4,7 @@
 #include <list>
 #include <memory>
 #include <vector>
-#include "../include/syntax.h"
+#include "syntax.h"
 
 
 Statement ParseIntoStatement(std::vector<Token> tokens);
