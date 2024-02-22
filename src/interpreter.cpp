@@ -6,12 +6,12 @@
 #include <vector>
 #include <string.h>
 #include <windows.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include "syntax.h"
 #include "interpreter.h"
 
 Exception InterpretPrint(std::vector<int> values);
-Exception InterpretPrintLine(std::vector<int> values);
+Exception InterpretWait(std::vector<int> values);
 
 Exception Interpret(std::vector<Statement> statements)
 {
@@ -21,6 +21,9 @@ Exception Interpret(std::vector<Statement> statements)
         {
         case Instruction::Print:
             InterpretPrint(i.values);
+            break;
+        case Instruction::Wait:
+            InterpretWait(i.values);
             break;
         default:
             return Exception::UnknownInstruction;
@@ -38,6 +41,12 @@ Exception InterpretPrint(std::vector<int> values)
         std::cout << i;
     }
 
+    return Exception::Good;
+}
+
+Exception InterpretWait(std::vector<int> values)
+{
+    Sleep(values.front());
     return Exception::Good;
 }
 

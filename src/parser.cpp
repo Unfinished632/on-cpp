@@ -170,7 +170,7 @@ Statement ParseIntoStatement(std::vector<Token> tokens)
         else if (tokens.at(0).value == "Println")
             return ParsePrintLine(tokens);
         else if (tokens.at(0).value == "Wait")
-            return ParsePrintLine(tokens);
+            return ParseWait(tokens);
     }
 
     Statement error;
