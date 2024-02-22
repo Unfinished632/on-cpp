@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 #include <string.h>
+#include <windows.h>
+#include <unistd.h>
 #include "syntax.h"
 #include "interpreter.h"
 

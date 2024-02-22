@@ -8,6 +8,7 @@ enum Instruction
 {
     SyntaxError,
     Print,
+    Wait,
     CreateVariable
 };
 

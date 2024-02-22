@@ -10,6 +10,7 @@
 Statement ParseIntoStatement(std::vector<Token> tokens);
 Statement ParsePrint(std::vector<Token> tokens);
 Statement ParsePrintLine(std::vector<Token> tokens);
+Statement ParseWait(std::vector<Token> tokens);
 
 std::list<struct Token> Lexer(std::string code)
 {
@@ -168,6 +169,8 @@ Statement ParseIntoStatement(std::vector<Token> tokens)
             return ParsePrint(tokens);
         else if (tokens.at(0).value == "Println")
             return ParsePrintLine(tokens);
+        else if (tokens.at(0).value == "Wait")
+            return ParsePrintLine(tokens);
     }
 
     Statement error;
@@ -232,6 +235,18 @@ Statement ParsePrintLine(std::vector<Token> tokens)
     Statement error;
     error.instruction = Instruction::SyntaxError;
     return error;
+}
+
+Statement ParseWait(std::vector<Token> tokens)
+{
+    Statement statement;
+    statement.instruction = Instruction::Wait;
+
+    tokens.erase(tokens.begin(), tokens.begin() + 2);
+
+    statement.values.push_back(std::stoi(tokens.front().value));
+
+    return statement;
 }
 
 DataType ParseDataType(std::string token)
