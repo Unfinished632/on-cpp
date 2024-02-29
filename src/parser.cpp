@@ -11,6 +11,8 @@ Statement ParseIntoStatement(std::vector<Token> tokens);
 Statement ParsePrint(std::vector<Token> tokens);
 Statement ParsePrintLine(std::vector<Token> tokens);
 Statement ParseWait(std::vector<Token> tokens);
+void ThrowError(SyntaxError error, int line, int collumn);
+std::string ErrorToString(SyntaxError error);
 
 std::list<struct Token> Lexer(std::string code)
 {
@@ -146,10 +148,13 @@ std::vector<Statement> Parse(std::list<struct Token> tokens)
     std::vector<Statement> ast;
     std::vector<Token> statement;
 
+    bool hasSemicolon = false;
+
     for (Token i : tokens)
     {
         if (i.value == ";")
         {
+            hasSemicolon = true;
             ast.push_back(ParseIntoStatement(statement));
             statement.clear();
             continue;
@@ -157,6 +162,9 @@ std::vector<Statement> Parse(std::list<struct Token> tokens)
 
         statement.push_back(i);
     }
+
+    if (!hasSemicolon)
+        ThrowError(SyntaxError::NoSemicolon, tokens.back().line, tokens.back().collumn);
 
     return ast;
 }
@@ -171,12 +179,11 @@ Statement ParseIntoStatement(std::vector<Token> tokens)
             return ParsePrintLine(tokens);
         else if (tokens.at(0).value == "Wait")
             return ParseWait(tokens);
+        else if (tokens.at(0).value == "Var")
+            return ParseWait(tokens);
     }
 
-    Statement error;
-    error.instruction = Instruction::SyntaxError;
-
-    return error;
+    ThrowError(SyntaxError::UndefinedInstruction, tokens.front().line, tokens.front().collumn);
 }
 
 Statement ParsePrint(std::vector<Token> tokens)
@@ -199,9 +206,7 @@ Statement ParsePrint(std::vector<Token> tokens)
         return statement;
     }
 
-    Statement error;
-    error.instruction = Instruction::SyntaxError;
-    return error;
+    ThrowError(SyntaxError::WrongType, tokens.back().line, tokens.back().collumn);
 }
 
 Statement ParsePrintLine(std::vector<Token> tokens)
@@ -232,9 +237,7 @@ Statement ParsePrintLine(std::vector<Token> tokens)
         return statement;
     }
 
-    Statement error;
-    error.instruction = Instruction::SyntaxError;
-    return error;
+    ThrowError(SyntaxError::WrongType, tokens.back().line, tokens.back().collumn);
 }
 
 Statement ParseWait(std::vector<Token> tokens)
@@ -242,9 +245,21 @@ Statement ParseWait(std::vector<Token> tokens)
     Statement statement;
     statement.instruction = Instruction::Wait;
 
+    int errorLine = tokens.back().line;
+    int errorCollumn = tokens.back().collumn;
     tokens.erase(tokens.begin(), tokens.begin() + 2);
 
-    statement.values.push_back(std::stoi(tokens.front().value));
+    if (tokens.empty())
+        ThrowError(SyntaxError::TooFewArguments, errorLine, errorCollumn);
+
+    try
+    {
+        statement.values.push_back(std::stoi(tokens.back().value));
+    }
+    catch (std::exception exception)
+    {
+        ThrowError(SyntaxError::WrongType, tokens.back().line, tokens.back().collumn);
+    }
 
     return statement;
 }
@@ -263,4 +278,30 @@ DataType ParseDataType(std::string token)
         return DataType::String;
     else
         return DataType::Error;
+}
+
+std::string ErrorToString(SyntaxError error)
+{
+    switch (error)
+    {
+        case 0:
+            return "No Semicolon";
+        case 1:
+            return "Undefined Instruction";
+        case 2:
+            return "Too Many Arguments";
+        case 3:
+            return "Too Few Arguments";
+        case 4:
+            return "Wrong Type";
+        default:
+            return "Undefined";
+    }
+}
+
+void ThrowError(SyntaxError error, int line, int collumn)
+{
+    std::cout << "\n\nSyntax Error: " << ErrorToString(error);
+    std::cout << "\n   Line: " << line << " Collumn: " << collumn;
+    exit(0);
 }

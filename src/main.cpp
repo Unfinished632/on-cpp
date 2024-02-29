@@ -89,10 +89,8 @@ std::string InstructionToString(Instruction instruction)
     switch (instruction)
     {
         case 0:
-            return "Syntax Error";
-        case 1:
             return "Print";
-        case 2:
+        case 1:
             return "Wait";
         default:
             return "Undefined";

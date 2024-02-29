@@ -6,10 +6,17 @@
 
 enum Instruction
 {
-    SyntaxError,
     Print,
-    Wait,
-    CreateVariable
+    Wait
+};
+
+enum SyntaxError
+{
+    NoSemicolon,
+    UndefinedInstruction,
+    TooManyArguments,
+    TooFewArguments,
+    WrongType
 };
 
 enum DataType
