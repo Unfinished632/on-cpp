@@ -10,6 +10,7 @@
 std::string ReadScript(std::string filePath);
 void PrintLexed(std::string code);
 void PrintAST(std::string code);
+std::string InstructionToString(Instruction instruction);
 void RunCode(std::string code);
 
 int main(int argc, char* argv[])
@@ -74,12 +75,27 @@ void PrintAST(std::string code)
 
     for (Statement i : ast)
     {
-        std::cout << i.instruction << " => ";
+        std::cout << InstructionToString(i.instruction) << " => ";
 
         for (int x : i.values)
             std:: cout << x << ' ';
         
         std::cout << '\n';
+    }
+}
+
+std::string InstructionToString(Instruction instruction)
+{
+    switch (instruction)
+    {
+        case 0:
+            return "Syntax Error";
+        case 1:
+            return "Print";
+        case 2:
+            return "Wait";
+        default:
+            return "Undefined";
     }
 }
 
