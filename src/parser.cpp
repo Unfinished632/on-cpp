@@ -191,7 +191,12 @@ Statement ParsePrint(std::vector<Token> tokens)
     Statement statement;
     statement.instruction = Instruction::Print;
 
+    int errorLine = tokens.back().line;
+    int errorCollumn = tokens.back().collumn;
     tokens.erase(tokens.begin(), tokens.begin() + 2);
+
+    if (tokens.empty())
+        ThrowError(SyntaxError::TooFewArguments, errorLine, errorCollumn);
 
     if (tokens.front().value == "\"" && tokens.back().value == "\"")
     {
