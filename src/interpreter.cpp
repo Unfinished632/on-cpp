@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 #include <string.h>
-#include <windows.h>
-#include <unistd.h>
+#include <chrono>
+#include <thread>
 #include "syntax.h"
 #include "interpreter.h"
 
@@ -46,7 +46,7 @@ Exception InterpretPrint(std::vector<int> values)
 
 Exception InterpretWait(std::vector<int> values)
 {
-    Sleep(values.front());
+    std::this_thread::sleep_for(std::chrono::milliseconds(values.front()));
     return Exception::Good;
 }
 
