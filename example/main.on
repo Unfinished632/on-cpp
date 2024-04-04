@@ -1,3 +1,4 @@
+Wait: 1000;
 Println: "Hello World!";
-Wait: 5000;
+Wait: 1000;
 Println: "Hello World!";
