@@ -14,10 +14,11 @@ All statements must end with a semicolon.
 ```Instruction: value;```
 
 Some instructions don't need/take values. They are written like this:
-```Instruction:```
+```Instruction:;```
 
 # Data Types
 As of now On has 2 data types which are **strings** and **integers**.
+
 Strings are series of characters and are written with a double quote(") at the end and at the start of the characters.
 ```"This is a string"```
 
@@ -38,6 +39,6 @@ Usages:
 ```Println:;```
 
 **Wait**: Stops the program for a given amount of time(milliseconds);
-Usage: ```Wait: <integer(time in milliseconds)>;```
+Usage: ```Wait: <integer>(time in milliseconds);```
 Example: This statement stops the program for 5 seconds:
 ```Wait: 5000;```
