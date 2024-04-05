@@ -10,8 +10,8 @@
 #include "syntax.h"
 #include "interpreter.h"
 
-Exception InterpretPrint(std::vector<int> values);
-Exception InterpretWait(std::vector<int> values);
+Exception InterpretPrint(std::string* values);
+Exception InterpretWait(unsigned int* values);
 
 Exception Interpret(std::vector<Statement> statements)
 {
@@ -20,10 +20,10 @@ Exception Interpret(std::vector<Statement> statements)
         switch (i.instruction)
         {
         case Instruction::Print:
-            InterpretPrint(i.values);
+            InterpretPrint((std::string*)i.values);
             break;
         case Instruction::Wait:
-            InterpretWait(i.values);
+            InterpretWait((unsigned int*)i.values);
             break;
         default:
             return Exception::UnknownInstruction;
@@ -34,19 +34,16 @@ Exception Interpret(std::vector<Statement> statements)
     return Exception::Good;
 }
 
-Exception InterpretPrint(std::vector<int> values)
+Exception InterpretPrint(std::string* values)
 {
-    for (char i : values)
-    {
-        std::cout << i;
-    }
+    std::cout << *values;
 
     return Exception::Good;
 }
 
-Exception InterpretWait(std::vector<int> values)
+Exception InterpretWait(unsigned int* values)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(values.front()));
+    std::this_thread::sleep_for(std::chrono::milliseconds(*values));
     return Exception::Good;
 }
 

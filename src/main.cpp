@@ -78,8 +78,15 @@ void PrintAST(std::string code)
     {
         std::cout << InstructionToString(i.instruction) << " => ";
 
-        for (int x : i.values)
-            std:: cout << x << ' ';
+        switch (i.instruction)
+        {
+            case Instruction::Print:
+                std::cout << *(std::string*)i.values;
+                break;
+            case Instruction::Wait:
+                std::cout << *(unsigned int*)i.values;
+                break;
+        }
         
         std::cout << '\n';
     }
@@ -89,9 +96,9 @@ std::string InstructionToString(Instruction instruction)
 {
     switch (instruction)
     {
-        case 0:
+        case Instruction::Print:
             return "Print";
-        case 1:
+        case Instruction::Wait:
             return "Wait";
         default:
             return "Undefined";

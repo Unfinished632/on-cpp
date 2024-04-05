@@ -6,8 +6,6 @@ cmake_minimum_required(VERSION 3.28)
 option(PRODUCTION_BUILD "Make this a production build" OFF)
 #DELETE THE OUT FOLDER AFTER CHANGING THIS BECAUSE VISUAL STUDIO DOESN'T SEEM TO RECOGNIZE THIS CHANGE AND REBUILD!
 
-configure_file(src/BuildConfig.h.in ../src/BuildConfig.h)
-
 
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -21,6 +19,8 @@ endif()
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) #link time optimization
 
 project(OnLang VERSION 0.1)
+
+configure_file(src/BuildConfig.h.in ../src/BuildConfig.h)
 
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)

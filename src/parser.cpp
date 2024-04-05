@@ -191,6 +191,10 @@ Statement ParsePrint(std::vector<Token> tokens)
     Statement statement;
     statement.instruction = Instruction::Print;
 
+    std::string value = "";
+    std::string* valuePtr = &value;
+    statement.values = valuePtr;
+
     int errorLine = tokens.back().line;
     int errorCollumn = tokens.back().collumn;
     tokens.erase(tokens.begin(), tokens.begin() + 2);
@@ -205,7 +209,7 @@ Statement ParsePrint(std::vector<Token> tokens)
 
         for (char i : tokens.front().value)
         {
-            statement.values.push_back(i);
+            value += i;
         }
 
         return statement;
@@ -218,26 +222,31 @@ Statement ParsePrintLine(std::vector<Token> tokens)
 {
     Statement statement;
     statement.instruction = Instruction::Print;
+    std::string value = "";
+    std::string* valuePtr = &value;
+    statement.values = valuePtr;
 
     tokens.erase(tokens.begin(), tokens.begin() + 2);
 
     if (tokens.empty())
     {
-        statement.values.push_back('\n');
+        value = "\n";
 
         return statement;
     }
     else if (tokens.front().value == "\"" && tokens.back().value == "\"")
     {
+        value = "";
+
         tokens.erase(tokens.begin());
         tokens.erase(tokens.begin() + tokens.size());
 
         for (char i : tokens.front().value)
         {
-            statement.values.push_back(i);
+            value += i;
         }
 
-        statement.values.push_back('\n');
+        value += '\n';
 
         return statement;
     }
@@ -249,6 +258,8 @@ Statement ParseWait(std::vector<Token> tokens)
 {
     Statement statement;
     statement.instruction = Instruction::Wait;
+    unsigned int* value = (unsigned int*)alloca(sizeof(unsigned int));
+    statement.values = value;
 
     int errorLine = tokens.back().line;
     int errorCollumn = tokens.back().collumn;
@@ -259,7 +270,7 @@ Statement ParseWait(std::vector<Token> tokens)
 
     try
     {
-        statement.values.push_back(std::stoi(tokens.back().value));
+        *value = std::stoi(tokens.back().value);
     }
     catch (std::exception exception)
     {

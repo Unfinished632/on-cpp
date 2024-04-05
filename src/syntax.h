@@ -39,7 +39,7 @@ struct Token
 struct Statement
 {
     Instruction instruction;
-    std::vector<int> values;
+    void* values;
 };
 
 std::list<struct Token> Lexer(std::string code);
