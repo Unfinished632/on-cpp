@@ -13,12 +13,9 @@
 Exception InterpretPrint(std::string* values);
 Exception InterpretWait(unsigned int* values);
 
-Exception Interpret(std::vector<Statement> statements)
-{
-    for (Statement i : statements)
-    {
-        switch (i.instruction)
-        {
+Exception Interpret(std::vector<Statement> statements){
+    for (Statement i : statements){
+        switch (i.instruction){
         case Instruction::Print:
             InterpretPrint((std::string*)i.values);
             break;
@@ -31,10 +28,8 @@ Exception Interpret(std::vector<Statement> statements)
         }
     }
 
-    for (Statement statement : statements)
-    {
-        switch (statement.instruction)
-        {
+    for (Statement statement : statements){
+        switch (statement.instruction){
             case Instruction::Print:
                 delete((std::string*)statement.values);
                 break;
@@ -47,15 +42,13 @@ Exception Interpret(std::vector<Statement> statements)
     return Exception::Good;
 }
 
-Exception InterpretPrint(std::string* values)
-{
+Exception InterpretPrint(std::string* values){
     std::cout << *values;
 
     return Exception::Good;
 }
 
-Exception InterpretWait(unsigned int* values)
-{
+Exception InterpretWait(unsigned int* values){
     std::this_thread::sleep_for(std::chrono::milliseconds(*values));
     return Exception::Good;
 }

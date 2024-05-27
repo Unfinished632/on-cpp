@@ -8,8 +8,7 @@
 #include <vector>
 #include "syntax.h"
 
-enum Exception
-{
+enum Exception{
     Good,
     UnknownInstruction,
     NullReferenceException

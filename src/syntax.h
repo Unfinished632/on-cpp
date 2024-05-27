@@ -4,14 +4,12 @@
 #include <list>
 #include <vector>
 
-enum Instruction
-{
+enum Instruction{
     Print,
     Wait
 };
 
-enum SyntaxError
-{
+enum SyntaxError{
     NoSemicolon,
     UndefinedInstruction,
     TooManyArguments,
@@ -19,8 +17,7 @@ enum SyntaxError
     WrongType
 };
 
-enum DataType
-{
+enum DataType{
     Error,
     Int,
     Double,
@@ -29,15 +26,13 @@ enum DataType
     Bool
 };
 
-struct Token
-{
+struct Token{
     std::string value;
     int line;
     int collumn;
 };
 
-struct Statement
-{
+struct Statement{
     Instruction instruction;
     void* values;
 };

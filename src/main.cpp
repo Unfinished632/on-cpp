@@ -14,10 +14,8 @@ void PrintAST(std::string code);
 std::string InstructionToString(Instruction instruction);
 void RunCode(std::string code);
 
-int main(int argc, char* argv[])
-{
-    if (argc <= 1)
-    {
+int main(int argc, char* argv[]){
+    if (argc <= 1){
         std::cout << "error: No arguments\n";
         return 0;
     }
@@ -41,14 +39,12 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-std::string ReadScript(std::string filePath)
-{
+std::string ReadScript(std::string filePath){
     //Read Script
     std::ifstream script;
     script.open(filePath);
 
-    if (!script.good())
-    {
+    if (!script.good()){
         std::cout << "This file doesn't exist dumbass!\n";
         exit(0);
     }
@@ -59,27 +55,22 @@ std::string ReadScript(std::string filePath)
     return buffer.str();;
 }
 
-void PrintLexed(std::string code)
-{
+void PrintLexed(std::string code){
     std::list<struct Token> tokens = Lexer(code);
 
-    for (Token i : tokens)
-    {
+    for (Token i : tokens){
         std::cout << i.value << " line:" << i.line << " collumn:" << i.collumn << '\n';
     }
 }
 
-void PrintAST(std::string code)
-{
+void PrintAST(std::string code){
     std::list<struct Token> tokens = Lexer(code);
     std::vector<Statement> ast = Parse(tokens);
 
-    for (Statement i : ast)
-    {
+    for (Statement i : ast){
         std::cout << InstructionToString(i.instruction) << " => ";
 
-        switch (i.instruction)
-        {
+        switch (i.instruction){
             case Instruction::Print:
                 std::cout << *(std::string*)i.values;
                 break;
@@ -92,10 +83,8 @@ void PrintAST(std::string code)
     }
 }
 
-std::string InstructionToString(Instruction instruction)
-{
-    switch (instruction)
-    {
+std::string InstructionToString(Instruction instruction){
+    switch (instruction){
         case Instruction::Print:
             return "Print";
         case Instruction::Wait:
@@ -105,8 +94,7 @@ std::string InstructionToString(Instruction instruction)
     }
 }
 
-void RunCode(std::string code)
-{
+void RunCode(std::string code){
     std::list<struct Token> tokens = Lexer(code);
     std::vector<Statement> ast = Parse(tokens);
 
