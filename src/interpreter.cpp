@@ -31,6 +31,19 @@ Exception Interpret(std::vector<Statement> statements)
         }
     }
 
+    for (Statement statement : statements)
+    {
+        switch (statement.instruction)
+        {
+            case Instruction::Print:
+                delete((std::string*)statement.values);
+                break;
+            case Instruction::Wait:
+                delete((unsigned int*)statement.values);
+                break;
+        }
+    }
+
     return Exception::Good;
 }
 

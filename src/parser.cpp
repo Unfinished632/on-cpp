@@ -191,9 +191,8 @@ Statement ParsePrint(std::vector<Token> tokens)
     Statement statement;
     statement.instruction = Instruction::Print;
 
-    std::string value = "";
-    std::string* valuePtr = &value;
-    statement.values = valuePtr;
+    std::string* value = new std::string();
+    statement.values = value;
 
     int errorLine = tokens.back().line;
     int errorCollumn = tokens.back().collumn;
@@ -209,7 +208,7 @@ Statement ParsePrint(std::vector<Token> tokens)
 
         for (char i : tokens.front().value)
         {
-            value += i;
+            *value += i;
         }
 
         return statement;
@@ -222,31 +221,30 @@ Statement ParsePrintLine(std::vector<Token> tokens)
 {
     Statement statement;
     statement.instruction = Instruction::Print;
-    std::string value = "";
-    std::string* valuePtr = &value;
-    statement.values = valuePtr;
+    std::string* value = new std::string();
+    statement.values = value;
 
     tokens.erase(tokens.begin(), tokens.begin() + 2);
 
     if (tokens.empty())
     {
-        value = "\n";
+        *value = "\n";
 
         return statement;
     }
     else if (tokens.front().value == "\"" && tokens.back().value == "\"")
     {
-        value = "";
+        *value = "";
 
         tokens.erase(tokens.begin());
         tokens.erase(tokens.begin() + tokens.size());
 
         for (char i : tokens.front().value)
         {
-            value += i;
+            *value += i;
         }
 
-        value += '\n';
+        *value += '\n';
 
         return statement;
     }
@@ -258,7 +256,7 @@ Statement ParseWait(std::vector<Token> tokens)
 {
     Statement statement;
     statement.instruction = Instruction::Wait;
-    unsigned int* value = (unsigned int*)alloca(sizeof(unsigned int));
+    unsigned int* value = new unsigned int;
     statement.values = value;
 
     int errorLine = tokens.back().line;
