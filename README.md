@@ -38,7 +38,7 @@ Usages:
 ```Println: <string>;```
 ```Println:;```
 
-**Wait**: Stops the program for a given amount of time(milliseconds);
+**Wait**: Stops the program for a given amount of time(milliseconds).
 Usage: ```Wait: <integer>(time in milliseconds);```
 Example: This statement stops the program for 5 seconds:
 ```Wait: 5000;```
