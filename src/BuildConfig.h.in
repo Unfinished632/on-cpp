@@ -1,2 +1,2 @@
-#define OnLang_VERSION_MAJOR @OnLang_VERSION_MAJOR@
-#define OnLang_VERSION_MINOR @OnLang_VERSION_MINOR@
+#define onlang_VERSION_MAJOR @onlang_VERSION_MAJOR@
+#define onlang_VERSION_MINOR @onlang_VERSION_MINOR@

@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
         "   -lexed <onFilePath> => Prints the lexed version of the file.\n" <<
         "   -ast <onFilePath> => Prints the AST of the file.\n"; 
     else if (!strcmp(argv[1], "--version"))
-        std::cout << "On version " << OnLang_VERSION_MAJOR << '.' << OnLang_VERSION_MINOR << '\n';
+        std::cout << "On version " << onlang_VERSION_MAJOR << '.' << onlang_VERSION_MINOR << '\n';
     else if (!strcmp(argv[1], "-lexed"))
         PrintLexed(ReadScript(argv[2]));
     else if (!strcmp(argv[1], "-ast"))

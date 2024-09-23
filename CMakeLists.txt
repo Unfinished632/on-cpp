@@ -18,7 +18,7 @@ endif()
 
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) #link time optimization
 
-project(OnLang VERSION 0.1)
+project(onlang VERSION 0.1)
 
 configure_file(src/BuildConfig.h.in ../src/BuildConfig.h)
 
