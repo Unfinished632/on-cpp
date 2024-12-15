@@ -1,5 +1,5 @@
 # On
-On is a statically typed programming language designed to make sense.
+On is a statically typed interpreted programming language I made with minimal prior knowledge.
 
 # Syntax
 On is made up of **statements** and statements are made up of **instructions** and **values**.
